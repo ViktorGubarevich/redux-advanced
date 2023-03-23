@@ -6,9 +6,39 @@ import styles from "./ProductItem.module.css";
 const ProductItem = (props) => {
   const { id, title, price, description } = props;
 
+  // const cart = useSelector((state) => state.cart);
   const dispatchFunction = useDispatch();
 
   const addItemHandler = () => {
+    // const updatedItemsQuantity = cart.itemsQuantity + 1;
+
+    // const updatedItems = cart.items.slice();
+    // const existingItem = updatedItems.find((item) => item.id === id);
+
+    // if (existingItem) {
+    //   const updatedExistingItem = { ...existingItem };
+    //   updatedExistingItem.quantity++;
+    //   updatedExistingItem.totalPrice = updatedExistingItem.totalPrice + price;
+
+    //   const existingItemIndex = updatedItems.find((item) => item.id === id);
+    //   updatedItems[existingItemIndex] = updatedExistingItem;
+    // } else {
+    //   updatedItems.push({
+    //     id: id,
+    //     price: price,
+    //     quantity: 1,
+    //     totalPrice: price,
+    //     title: title,
+    //   });
+    // }
+
+    // const updatedCart = {
+    //   itemsQuantity: updatedItemsQuantity,
+    //   items: updatedItems,
+    // };
+
+    // dispatchFunction(cartActions.updateCart(updatedCart));
+
     dispatchFunction(
       cartActions.addItem({
         id,

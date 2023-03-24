@@ -7,7 +7,7 @@ const ProductItem = (props) => {
   const { id, title, price, description } = props;
 
   // const cart = useSelector((state) => state.cart);
-  const dispatchFunction = useDispatch();
+  const dispatchAction = useDispatch();
 
   const addItemHandler = () => {
     // const updatedItemsQuantity = cart.itemsQuantity + 1;
@@ -37,9 +37,9 @@ const ProductItem = (props) => {
     //   items: updatedItems,
     // };
 
-    // dispatchFunction(cartActions.updateCart(updatedCart));
+    // dispatchAction(cartActions.updateCart(updatedCart));
 
-    dispatchFunction(
+    dispatchAction(
       cartActions.addItem({
         id,
         title,

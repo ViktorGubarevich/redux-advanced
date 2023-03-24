@@ -4,7 +4,7 @@ import Cart from "./components/Cart/Cart";
 import Layout from "./components/Layout/Layout";
 import Products from "./components/Shop/Products";
 import StatusBarMessage from "./components/UI/StatusBarMessage";
-import { mainActions } from "./store/main-slice";
+import { sendCartData, getCartData } from "./store/cart-slice";
 
 let isInitialRunning = true;
 
@@ -13,53 +13,21 @@ function App() {
   const cart = useSelector((state) => state.cart);
   const statusMessage = useSelector((state) => state.main.statusMessage);
 
-  const dispatchFunction = useDispatch();
+  const dispatchAction = useDispatch();
 
   useEffect(() => {
-    const sendCartData = async () => {
-      dispatchFunction(
-        mainActions.showStatusMessage({
-          status: "pending",
-          title: "Отправка данных",
-          message: "Данные корзины отправляются на сервер ...",
-        })
-      );
+    dispatchAction(getCartData(cart));
+  }, []);
 
-      const response = await fetch(
-        "https://kitchen-japanese-default-rtdb.firebaseio.com/cart.json",
-        {
-          method: "PUT",
-          body: JSON.stringify(cart),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Ошибка при отправке данных корзины");
-      }
-
-      dispatchFunction(
-        mainActions.showStatusMessage({
-          status: "success",
-          title: "Отправка данных успешна",
-          message: "Данные корзины успешно отправлены на сервер!",
-        })
-      );
-    };
-
+  useEffect(() => {
     if (isInitialRunning) {
       isInitialRunning = false;
       return;
     }
 
-    sendCartData().catch((e) => {
-      dispatchFunction(
-        mainActions.showStatusMessage({
-          status: "error",
-          title: "Ошибка запроса",
-          message: "Ошибка при отправке данных корзины",
-        })
-      );
-    });
+    if (cart.isCartContentChanged) {
+      dispatchAction(sendCartData(cart));
+    }
   }, [cart]);
 
   return (
